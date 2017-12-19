@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title>图表模板</title>
+	<script src="js/echarts.js"></script>
+</head>
+<body>
+	<!-- 图表容器 -->
+	<div id="main" style="width: 900px;height: 600px;"></div>
+	<script type="text/javascript">
+		 
+		//初始化图表控件
+		var myChart = echarts.init(document.getElementById("main"));
+
+		/*
+		myChart.showLoading({
+			text:'正在努力获取数据中...'		//loading
+		});
+		*/
+
+		var data = function(){
+
+			var top = [20];
+			var lowRandomInit = 20-Math.ceil(Math.random()*8);
+			var low = [lowRandomInit];
+
+			var datatime = ['2017-03-01'];
+			for(var i=1;i<=30;i++) {
+				var flag = Math.random()>=0.5;
+				var max = top[i-1];
+				var maxRandom = Math.ceil(Math.random()*5);
+				if(flag) {
+					max = max+maxRandom;
+				} else {
+					max = max-maxRandom;
+				}
+				var min = max-Math.ceil(Math.random()*8);		
+				top.push(max);
+				low.push(min);
+
+				var day = (i+1)<10 ? '0'+(i+1) : day+"";
+				datatime.push('2017-03-'+day);
+			}
+
+			var da = {
+				'top':top,
+				'low':low,
+				'datatime':datatime
+			}
+			return da;
+		}();
+
+		console.info(data);
+
+		//图表参数
+		var option = {
+			title:{
+				text:'2017年3月份某地天气',
+				subtext:'模拟数据'
+			},
+			toolbox:{
+				feature:{
+					dataZoom:{
+						show:true
+					},
+					dataView:{
+						show:true,
+						readonly:false
+					},
+					magicType:{
+						show:true,
+						type:['line','bar']
+					},
+					restore:{
+						show:true
+					},
+					saveAsImage:{
+						show:true
+					}
+				}
+			},
+			legend:{						//图例配置
+				padding:5,
+				itemGap:10,
+				data:['最高温度','最低温度']
+			},
+			tooltip:{						//提示框组件
+				trigger:'axis'
+			},
+			xAxis:[							//直角坐标系中X轴
+				{	
+					type:'category',//类目轴
+					data:data.datatime
+				}
+			],
+			yAxis:[							//直角坐标系中Y轴
+				{
+					type:'value',//数值轴
+					boundaryGap:[0.1,0.1],//两边留白
+					axisLabel:{
+						formatter:'{value}℃'
+					}
+				}
+			],
+			series:[
+				{
+					name:'最高温度',
+					type:'line',
+					data:data.top
+				},
+				{
+					name:'最低温度',
+					type:'line',
+					data:data.low,
+					markPoint:{
+						data:[
+							{type:'min',name:'本月最低温度'}
+						]
+					}
+				},
+			]
+		};
+
+		myChart.setOption(option);
+
+	</script>
+</body>
+</html>
