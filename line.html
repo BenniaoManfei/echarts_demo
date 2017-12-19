@@ -2,7 +2,7 @@
 <html>
 <head>
 	<meta charset="utf-8" />
-	<title>图表模板</title>
+	<title>折线图</title>
 	<script src="js/echarts.js"></script>
 </head>
 <body>
@@ -20,15 +20,20 @@
 		*/
 
 		var data = {
-			ios:[112,102,88,56,90,10,90,72,11,23,35,89],
-			android:[88,56,90,10,90,72,11,23,35,89,112,102]
+			top:[11,11,15,13,12,13,10],
+			low:[1,-2,2,5,3,2,0]
 		}
 
 		//图表参数
 		var option = {
 			title:{
-				text:'图表主标题',
-				subtext:'图表副标题'
+				text:'未来一周气温变化',
+				subtext:'纯属虚构'
+			},
+			legend:{						//图例配置
+				padding:5,
+				itemGap:10,
+				data:['最高气温','最低气温']
 			},
 			toolbox:{
 				feature:{
@@ -51,47 +56,55 @@
 					}
 				}
 			},
-			legend:{						//图例配置
-				padding:5,
-				itemGap:10,
-				data:['ios','android']
-			},
 			tooltip:{						//提示框组件
-				trigger:'item'
+				trigger:'axis'
 			},
 			xAxis:[							//直角坐标系中X轴
 				{	
 					type:'category',//类目轴
-					data:['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
+					boundaryGap:false,
+					data:['周一','周二','周三','周四','周五','周六','周日']
 				}
 			],
 			yAxis:[							//直角坐标系中Y轴
 				{
 					type:'value',//数值轴
-					boundaryGap:[0.1,0.1],//两边留白
-					splitNumber:4
+					axisLabel:{
+						formatter:'{value}℃'
+					}
 				}
 			],
 			series:[
 				{
-					name:'ios',
+					name:'最高气温',
 					type:'line',
-					data:data.ios
+					data:data.top,
+					markPoint:{
+						data:[
+							{type:'max'},
+							{type:'min'}
+						]
+					},
+					markLine:{
+						data:[
+							{type:'average',name:'平均最高气温'}
+						]
+					}
 				},
 				{
-					name:'ios',
-					type:'bar',
-					data:data.ios
-				},
-				{
-					name:'android',
+					name:'最低气温',
 					type:'line',
-					data:data.android
-				},
-				{
-					name:'android',
-					type:'bar',
-					data:data.android
+					data:data.low,
+					markPoint:{
+						data:[
+							{name:'周最低',value:-2,xAxis:1,yAxis:-1.5}
+						]
+					},
+					markLine:{
+						data:[
+							{type:'average',name:'平均最高气温'},
+						]
+					}
 				}
 			]
 		};
