@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title>图表模板</title>
+	<script type="text/javascript" src="echarts.js"></script>
+</head>
+<body>
+	<!-- 图表容器 -->
+	<div id="main" style="width: 900px;height: 600px;"></div>
+	<script type="text/javascript">
+		
+		//初始化图表控件
+		var myChart = echarts.init(document.getElementById("main"));
+
+		/*
+		myChart.showLoading({
+			text:'正在努力获取数据中...'		//loading
+		});
+		*/
+
+		var data = {
+			ios:[112,102,88,56,90,10,90,72,11,23,35,89],
+			android:[88,56,90,10,90,72,11,23,35,89,112,102]
+		}
+
+		//图表参数
+		var option = {
+			legend:{						//图例配置
+				padding:5,
+				itemGap:10,
+				data:['ios','android']
+			},
+			tooltip:{						//提示框组件
+				trigger:'item'
+			},
+			xAxis:[							//直角坐标系中X轴
+				{	
+					type:'category',//类目轴
+					data:['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
+				}
+			],
+			yAxis:[							//直角坐标系中Y轴
+				{
+					type:'value',//数值轴
+					boundaryGap:[0.1,0.1],//两边留白
+					splitNumber:4
+				}
+			],
+			series:[
+				{
+					name:'ios',
+					type:'line',
+					data:data.ios
+				},
+				{
+					name:'ios',
+					type:'bar',
+					data:data.ios
+				},
+				{
+					name:'android',
+					type:'line',
+					data:data.android
+				},
+				{
+					name:'android',
+					type:'bar',
+					data:data.android
+				}
+			]
+		};
+
+		myChart.setOption(option);
+
+	</script>
+</body>
+</html>
