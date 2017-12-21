@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title>图表模板</title>
+	<script src="js/echarts.js"></script>
+	<script src="js/jquery-3.2.1.min.js"></script>
+	<script src="json/pie_basic.json"></script>
+</head>
+<body>
+	<!-- 图表容器 -->
+	<div id="main" style="width: 900px;height: 600px;border: 1px solid red;"></div>
+	<script type="text/javascript">
+		
+		//初始化图表控件
+		var myChart = echarts.init(document.getElementById("main"));
+
+		/*
+		myChart.showLoading({
+			text:'正在努力获取数据中...'		//loading
+		});
+		*/
+
+
+		//图表参数
+		var option = {
+		    title: {
+		        text: "某站点用户访问来源",
+		        x: "center"
+		    },
+		    tooltip: {
+		        trigger: "item",
+		        formatter: "{a} <br/>{b} : {c} ({d}%)"
+		    },
+		    legend: {
+		        orient: "vertical",
+		        x: "left",
+		        data: data.legend
+		    },
+		    toolbox: {
+		        show: true,
+		        feature: {
+		            mark: {
+		                show: true
+		            },
+		            dataView: {
+		                show: true,
+		                readOnly: true
+		            },
+		            restore: {
+		                show: true
+		            },
+		            saveAsImage: {
+		                show: true
+		            }
+		        }
+		    },
+		    calculable: true,
+		    series: [
+		        {
+		            name: "访问来源",
+		            type: "pie",
+		            radius: "55%",
+		            center: ["50%", "60%"],
+		            itemStyle: {
+		                normal: {
+		                    label: {
+		                        show: true,
+		                        formatter: "{b}: {c} ({d}%)"
+		                    }
+		                }
+		            },
+		            data: data.series
+		        }
+		    ]
+		};
+
+		myChart.setOption(option);
+
+	</script>
+</body>
+</html>
