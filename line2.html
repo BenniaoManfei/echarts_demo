@@ -2,7 +2,7 @@
 <html>
 <head>
 	<meta charset="utf-8" />
-	<title>图表模板</title>
+	<title>折线图</title>
 	<script src="js/echarts.js"></script>
 </head>
 <body>
@@ -61,16 +61,43 @@
 			},
 			toolbox:{
 				feature:{
+					mark:{
+						show:true
+					},
 					dataZoom:{
 						show:true
 					},
 					dataView:{
 						show:true,
-						readonly:false
+						readonly:true,
+						optionToContent:function(opt) {
+							console.info(opt);
+							var xAxisData = opt.xAxis[0].data;
+							var series = opt.series;
+							var table = "<table style='width:100%;text-align:center;'>"
+											+"<thead>"
+												+"<tr>"
+													+"<th>时间</th>"
+													+"<th>"+series[0].name+"</th>"
+													+"<th>"+series[1].name+"</th>"
+												+"</tr>"
+											+"</thead>"
+											+"<tbody>";
+							for(var i=0;i<xAxisData.length;i++) {
+								var tr = "<tr>"
+											+"<td>"+xAxisData[i]+"</td>"
+											+"<td>"+series[0].data[i]+"</td>"
+											+"<td>"+series[1].data[i]+"</td>"
+										+"</tr>";
+								table += tr;
+							}	
+							table += "</tbody></table>";			
+							return table;			
+						}
 					},
 					magicType:{
 						show:true,
-						type:['line','bar']
+						type:['line','bar','stack','tiled']
 					},
 					restore:{
 						show:true
@@ -103,6 +130,12 @@
 					}
 				}
 			],
+			dataZoom:{
+				show:true,
+				realtime:true,
+				start:20,
+				end:80
+			},
 			series:[
 				{
 					name:'最高温度',
