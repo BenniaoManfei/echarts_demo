@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title>第一张湖北地图</title>
+	<script src="js/echarts.js"></script>
+	<script src="js/map/js/province/hubei.js"></script>
+	<script src="js/theme/macarons.js"></script>
+	<script src="js/jquery-3.2.1.min.js"></script>
+	<script type="text/javascript">
+		var citiesOfHubei = ['武汉市','黄石市','十堰市','宜昌市','襄阳市','鄂州市','荆门市','孝感市','荆州市','黄冈市','咸宁市','随州市','恩施土家族苗族自治州','神农架林区','潜江市','天门市','仙桃市']
+
+	</script>
+</head>
+<body>
+	<div id="main" style="width: 600px;height: 400px;border: 1px solid red;"></div>
+
+	<script type="text/javascript">
+
+		function randomData() {
+			return Math.round(Math.random()*1000);
+		}
+		//初始化图表控件
+		var myChart = echarts.init(document.getElementById("main"),'macarons');
+
+
+		
+		var data = function(){
+			var legend = ['iphone6','iphone7','iphoneX']
+
+			var series = [];
+
+			for(var j=0;j<legend.length;j++) {
+				var legend_i = [];
+				for(var i=0;i<citiesOfHubei.length;i++) {
+					legend_i[i]={name:citiesOfHubei[i],value:randomData()}
+				}
+				var iphone_i = {
+					"name":legend[j],
+					type:'map',
+					mapType:'湖北',
+					label: {
+			            normal: {
+			                show: true
+			            },
+			            emphasis: {
+			                show: true
+			            }
+			        },
+			        data:legend_i
+
+				}
+				series[j] = iphone_i;
+			}
+			
+
+			var result = {
+				"legend":legend,
+				"series":series
+			};
+
+			return result;
+		}();
+
+		console.info(data);
+
+/*		myChart.showLoading({
+			text:'正在努力获取数据中...'		//loading
+		});*/
+
+		var option = {
+		    title: {
+		        text: "iphone在湖北销量统计",
+		        left: "center"
+		    },
+		    tooltip:{
+		    	trigger: 'item'
+		    },
+		    toolbox: {
+		        show: true,
+		        orient: 'vertical',
+		        left: 'right',
+		        top: 'center',
+		        feature: {
+		            dataView: {readOnly: false},
+		            restore: {},
+		            saveAsImage: {}
+		        }
+		    },
+		    visualMap: {
+		        min: 0,
+		        max: 3000,
+		        left: 'left',
+		        top: 'bottom',
+		        text: ['高','低'],           // 文本，默认为数值文本
+		        calculable: true
+		    },
+		    legend: {
+        		orient: 'vertical',
+        		left: 'left',
+        		data:data.legend
+    		},
+    		series:data.series
+		 }
+
+		 myChart.setOption(option);
+	</script>
+</body>
+</html>
